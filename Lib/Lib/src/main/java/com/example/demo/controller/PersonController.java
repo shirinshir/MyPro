@@ -38,10 +38,6 @@ public class PersonController {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(personService.createPerson(person));
     }
-    @GetMapping("/search")
-    public ResponseEntity<List<Person>> searchPersons(@RequestParam String query) {
-        return ResponseEntity.ok(personService.searchPersons(query));
-    }
 
     @PutMapping("/{id}")
     public ResponseEntity<PersonResponse> updatePerson(

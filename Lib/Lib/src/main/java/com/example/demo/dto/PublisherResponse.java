@@ -1,4 +1,4 @@
-// BookRequest.java
+// PublisherResponse.java
 package com.example.demo.dto;
 
 import lombok.AllArgsConstructor;
@@ -8,11 +8,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookRequest {
+public class PublisherResponse {
+    private Long id;
     private String name;
-    private Long authorId;
-    private Long publisherId;
-    private Long readerId;
-    private Boolean publisherActive;
-
+    private boolean isActive;
 }

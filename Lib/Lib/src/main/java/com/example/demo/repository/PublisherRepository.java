@@ -7,7 +7,8 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public interface PublisherRepository extends JpaRepository<Publisher, Long> {
-    List<Publisher> findByNameContainingIgnoreCase(String name);
-    List<Publisher> findByActive(boolean active);  // <-- метод с active
+    List<Publisher> findByNameContaining(String name);
+    List<Publisher> findByIsActive(boolean isActive);
 }

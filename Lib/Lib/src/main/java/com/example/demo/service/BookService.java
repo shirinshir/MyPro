@@ -35,41 +35,11 @@ public class BookService {
                 .orElseThrow(() -> new ResourceNotFoundException("Book not found"));
     }
 
-    public List<BookResponse> searchByAuthor(String authorName) {
-        return bookRepository.findByAuthor_NameContainingIgnoreCase(authorName)
-                .stream().map(this::mapToBookResponse).collect(Collectors.toList());
-    }
-
-    public List<BookResponse> searchBooks(String name, Long authorId, Long publisherId) {
-        List<Book> books = bookRepository.findAll().stream()
-                .filter(book -> {
-                    boolean matches = true;
-                    if (name != null && !name.isEmpty()) {
-                        matches = matches && book.getName() != null && book.getName().equalsIgnoreCase(name);
-                    }
-                    if (authorId != null) {
-                        matches = matches && book.getAuthor() != null && book.getAuthor().getId().equals(authorId);
-                    }
-                    if (publisherId != null) {
-                        matches = matches && book.getPublisher() != null && book.getPublisher().getId().equals(publisherId);
-                    }
-                    return matches;
-                })
-                .collect(Collectors.toList());
-
-        return books.stream()
+    public List<BookResponse> searchBooks(String query) {
+        return bookRepository.findByNameContaining(query).stream()
                 .map(this::mapToBookResponse)
                 .collect(Collectors.toList());
     }
-
-
-
-    public List<BookResponse> searchByPublisher(String publisherName) {
-        return bookRepository.findByPublisher_NameContainingIgnoreCase(publisherName)
-                .stream().map(this::mapToBookResponse).collect(Collectors.toList());
-    }
-
-
 
     public BookResponse createBook(BookRequest bookRequest) {
         Book book = new Book();
@@ -114,13 +84,6 @@ public class BookService {
         if (bookRequest.getPublisherId() != null) {
             Publisher publisher = publisherRepository.findById(bookRequest.getPublisherId())
                     .orElseThrow(() -> new ResourceNotFoundException("Publisher not found"));
-
-            // Обновляем активность издательства, если поле передано (может быть null)
-            if (bookRequest.getPublisherActive() != null) {
-                publisher.setActive(bookRequest.getPublisherActive());
-                publisherRepository.save(publisher);  // Сохраняем изменения издательства!
-            }
-
             book.setPublisher(publisher);
         } else {
             book.setPublisher(null);
@@ -137,7 +100,6 @@ public class BookService {
         Book updatedBook = bookRepository.save(book);
         return mapToBookResponse(updatedBook);
     }
-
 
     public void deleteBook(Long id) {
         if (!bookRepository.existsById(id)) {

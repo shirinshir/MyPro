@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class PublisherService {
-    public final PublisherRepository publisherRepository;
+    private final PublisherRepository publisherRepository;
 
     public List<PublisherResponse> getAllPublishers() {
         return publisherRepository.findAll().stream()
@@ -29,11 +29,10 @@ public class PublisherService {
     }
 
     public List<PublisherResponse> searchPublishers(String query) {
-        return publisherRepository.findByNameContainingIgnoreCase(query).stream()
-                .map(publisher -> new PublisherResponse(publisher.getId(), publisher.getName(), publisher.isActive()))
+        return publisherRepository.findByNameContaining(query).stream()
+                .map(this::mapToPublisherResponse)
                 .collect(Collectors.toList());
     }
-
 
     public PublisherResponse createPublisher(Publisher publisher) {
         Publisher savedPublisher = publisherRepository.save(publisher);
@@ -51,7 +50,6 @@ public class PublisherService {
         return mapToPublisherResponse(updatedPublisher);
     }
 
-
     public void deletePublisher(Long id) {
         if (!publisherRepository.existsById(id)) {
             throw new ResourceNotFoundException("Publisher not found");
@@ -60,12 +58,12 @@ public class PublisherService {
     }
 
     public List<PublisherResponse> getActivePublishers() {
-        return publisherRepository.findByActive(true).stream()
+        return publisherRepository.findByIsActive(true).stream()
                 .map(this::mapToPublisherResponse)
                 .collect(Collectors.toList());
     }
 
-    public PublisherResponse mapToPublisherResponse(Publisher publisher) {
+    private PublisherResponse mapToPublisherResponse(Publisher publisher) {
         PublisherResponse response = new PublisherResponse();
         response.setId(publisher.getId());
         response.setName(publisher.getName());

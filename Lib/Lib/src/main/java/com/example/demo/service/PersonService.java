@@ -73,8 +73,4 @@ public class PersonService {
         response.setRole(person.getRole());
         return response;
     }
-    public List<Person> searchPersons(String query) {
-        return personRepository.findByNameContainingIgnoreCase(query);
-    }
-
 }

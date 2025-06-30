@@ -1,15 +1,17 @@
-// PublisherResponse.java
+// RegisterRequest.java
 package com.example.demo.dto;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+@Builder
 @AllArgsConstructor
-public class PublisherResponse {
-    private Long id;
+@NoArgsConstructor
+public class RegisterRequest {
     private String name;
-    public boolean active;
+    private String email;
+    private String password;
 }

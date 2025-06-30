@@ -1,3 +1,4 @@
+// Publisher.java
 package com.example.demo.model;
 
 import jakarta.persistence.*;
@@ -17,6 +18,6 @@ public class Publisher {
 
     @NotBlank
     private String name;
-    @Column(name = "is_active")
-    private boolean active;
+
+    private boolean isActive;
 }

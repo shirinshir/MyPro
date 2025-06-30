@@ -13,6 +13,4 @@ public class BookRequest {
     private Long authorId;
     private Long publisherId;
     private Long readerId;
-    private Boolean publisherActive;
-
 }

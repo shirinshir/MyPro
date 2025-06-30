@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/api/publishers")
 @RequiredArgsConstructor
 public class PublisherController {
-    public final PublisherService publisherService;
+    private final PublisherService publisherService;
 
     @GetMapping
     public ResponseEntity<List<PublisherResponse>> getAllPublishers() {

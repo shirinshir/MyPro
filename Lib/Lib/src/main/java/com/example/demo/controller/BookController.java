@@ -27,25 +27,10 @@ public class BookController {
         return ResponseEntity.ok(bookService.getBookById(id));
     }
 
-    @GetMapping("/search/author")
-    public ResponseEntity<List<BookResponse>> searchByAuthor(@RequestParam String name) {
-        return ResponseEntity.ok(bookService.searchByAuthor(name));
-    }
-
-    @GetMapping("/search/publisher")
-    public ResponseEntity<List<BookResponse>> searchByPublisher(@RequestParam String name) {
-        return ResponseEntity.ok(bookService.searchByPublisher(name));
-    }
     @GetMapping("/search")
-    public ResponseEntity<List<BookResponse>> searchBooks(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Long authorId,
-            @RequestParam(required = false) Long publisherId) {
-        return ResponseEntity.ok(bookService.searchBooks(name, authorId, publisherId));
+    public ResponseEntity<List<BookResponse>> searchBooks(@RequestParam String query) {
+        return ResponseEntity.ok(bookService.searchBooks(query));
     }
-
-
-
 
     @PostMapping
     public ResponseEntity<BookResponse> createBook(@RequestBody BookRequest bookRequest) {
